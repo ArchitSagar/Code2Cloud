@@ -8,28 +8,28 @@ import {
   SiLinux,
   SiWindows,
 } from "react-icons/si";
+import "./Techstack.css"; // ✅ reuse same CSS
 
 function Toolstack() {
+  const tools = [
+    { icon: <SiWindows />, name: "Windows" },
+    { icon: <SiLinux />, name: "Linux" },
+    { icon: <SiVisualstudiocode />, name: "VS Code" },
+    { icon: <SiNotion />, name: "Notion" },
+    { icon: <SiVercel />, name: "Vercel" },
+    { icon: <SiNetlify />, name: "Netlify" },
+  ];
+
   return (
     <Row style={{ justifyContent: "center", paddingBottom: "50px" }}>
-      <Col xs={4} md={2} className="tech-icons" title="Windows">
-        <SiWindows />
-      </Col>
-      <Col xs={4} md={2} className="tech-icons" title="Linux">
-        <SiLinux />
-      </Col>
-      <Col xs={4} md={2} className="tech-icons" title="VS Code">
-        <SiVisualstudiocode />
-      </Col>
-      <Col xs={4} md={2} className="tech-icons" title="Notion">
-        <SiNotion />
-      </Col>
-      <Col xs={4} md={2} className="tech-icons" title="Vercel">
-        <SiVercel />
-      </Col>
-      <Col xs={4} md={2} className="tech-icons" title="Netlify">
-        <SiNetlify />
-      </Col>
+      {tools.map((tool, index) => (
+        <Col xs={4} md={2} className="tech-icons" key={index}>
+          <div className="icon-container">
+            {tool.icon}
+            <div className="tech-label">{tool.name}</div>
+          </div>
+        </Col>
+      ))}
     </Row>
   );
 }

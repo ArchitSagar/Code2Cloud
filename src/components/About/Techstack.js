@@ -19,55 +19,37 @@ import {
   SiMicrosoftazure,
   SiGooglecloud,
 } from "react-icons/si";
+import "./Techstack.css"; // ✅ Make sure this file is in the same folder
 
 function Techstack() {
+  const techStack = [
+    { icon: <CgCPlusPlus />, name: "C++" },
+    { icon: <DiJavascript1 />, name: "JavaScript" },
+    { icon: <DiNodejs />, name: "Node.js" },
+    { icon: <DiReact />, name: "React" },
+    { icon: <DiPython />, name: "Python" },
+    { icon: <DiGit />, name: "Git" },
+    { icon: <SiDocker />, name: "Docker" },
+    { icon: <SiKubernetes />, name: "Kubernetes" },
+    { icon: <SiTerraform />, name: "Terraform" },
+    { icon: <SiAnsible />, name: "Ansible" },
+    { icon: <SiPuppet />, name: "Puppet" },
+    { icon: <SiGithubactions />, name: "GitHub Actions" },
+    { icon: <SiMicrosoftazure />, name: "Azure" },
+    { icon: <SiGooglecloud />, name: "Google Cloud" },
+    { icon: <SiFirebase />, name: "Firebase" },
+  ];
+
   return (
     <Row style={{ justifyContent: "center", paddingBottom: "50px" }}>
-      <Col xs={4} md={2} className="tech-icons" title="C++">
-        <CgCPlusPlus />
-      </Col>
-      <Col xs={4} md={2} className="tech-icons" title="JavaScript">
-        <DiJavascript1 />
-      </Col>
-      <Col xs={4} md={2} className="tech-icons" title="Node.js">
-        <DiNodejs />
-      </Col>
-      <Col xs={4} md={2} className="tech-icons" title="React">
-        <DiReact />
-      </Col>
-      <Col xs={4} md={2} className="tech-icons" title="Python">
-        <DiPython />
-      </Col>
-      <Col xs={4} md={2} className="tech-icons" title="Git">
-        <DiGit />
-      </Col>
-      <Col xs={4} md={2} className="tech-icons" title="Docker">
-        <SiDocker />
-      </Col>
-      <Col xs={4} md={2} className="tech-icons" title="Kubernetes">
-        <SiKubernetes />
-      </Col>
-      <Col xs={4} md={2} className="tech-icons" title="Terraform">
-        <SiTerraform />
-      </Col>
-      <Col xs={4} md={2} className="tech-icons" title="Ansible">
-        <SiAnsible />
-      </Col>
-      <Col xs={4} md={2} className="tech-icons" title="Puppet">
-        <SiPuppet />
-      </Col>
-      <Col xs={4} md={2} className="tech-icons" title="GitHub Actions">
-        <SiGithubactions />
-      </Col>
-      <Col xs={4} md={2} className="tech-icons" title="Azure">
-        <SiMicrosoftazure />
-      </Col>
-      <Col xs={4} md={2} className="tech-icons" title="Google Cloud">
-        <SiGooglecloud />
-      </Col>
-      <Col xs={4} md={2} className="tech-icons" title="Firebase">
-        <SiFirebase />
-      </Col>
+      {techStack.map((tech, index) => (
+        <Col xs={4} md={2} className="tech-icons" key={index}>
+          <div className="icon-container">
+            {tech.icon}
+            <div className="tech-label">{tech.name}</div>
+          </div>
+        </Col>
+      ))}
     </Row>
   );
 }
