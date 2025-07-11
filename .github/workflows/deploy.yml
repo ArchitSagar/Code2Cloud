@@ -1,12 +1,12 @@
-name: CI/CD with Lint, Test, Docker, Terraform, and Domain Bind
+name: CI/CD with Lint, Docker, Terraform, and Domain Bind
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
     paths:
-      - 'src/**'           # React app code
-      - 'infra/**'         # Terraform infra
-      - '.github/workflows/**'  # Workflow file itself
+      - 'src/**'
+      - 'infra/**'
+      - '.github/workflows/**'
       - 'Dockerfile'
       - 'package.json'
       - 'package-lock.json'
@@ -14,6 +14,9 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
+    env:
+      TF_VAR_image_tag: ${{ github.run_number }}
 
     steps:
     - name: Checkout Code
@@ -32,22 +35,19 @@ jobs:
       run: npm run lint
       working-directory: ./src
 
+    # Uncomment below if tests are added later
     # - name: Run Tests
     #   run: npm test -- --watchAll=false
     #   working-directory: ./src
-
-    - name: Generate Image Tag
-      id: tag
-      run: echo "TAG=$(date +%s)" >> $GITHUB_ENV
 
     - name: Docker Login
       run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
 
     - name: Build Docker Image
-      run: docker build -t ${{ secrets.DOCKER_USERNAME }}/code2cloud-portfolio:${{ env.TAG }} .
+      run: docker build -t ${{ secrets.DOCKER_USERNAME }}/code2cloud-portfolio:${{ env.TF_VAR_image_tag }} .
 
     - name: Push Docker Image
-      run: docker push ${{ secrets.DOCKER_USERNAME }}/code2cloud-portfolio:${{ env.TAG }}
+      run: docker push ${{ secrets.DOCKER_USERNAME }}/code2cloud-portfolio:${{ env.TF_VAR_image_tag }}
 
     - name: Azure Login
       uses: azure/login@v1
@@ -64,7 +64,7 @@ jobs:
       working-directory: ./infra
 
     - name: Terraform Apply
-      run: terraform apply -auto-approve -var="image_tag=${{ env.TAG }}"
+      run: terraform apply -auto-approve
       working-directory: ./infra
 
     - name: Bind Custom Domain (only if not already bound)

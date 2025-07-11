@@ -1,4 +1,13 @@
+# main.tf
+
 terraform {
+  backend "azurerm" {
+    resource_group_name  = "terraform-state-rg"
+    storage_account_name = "tfstatearchit" 
+    container_name       = "tfstate"
+    key                  = "portfolio.terraform.tfstate"
+  }
+
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
@@ -10,6 +19,11 @@ terraform {
 provider "azurerm" {
   features {}
   skip_provider_registration = true
+}
+
+variable "image_tag" {
+  type        = string
+  description = "Tag for the Docker image"
 }
 
 resource "azurerm_resource_group" "portfolio_rg" {
@@ -30,11 +44,6 @@ resource "azurerm_container_app_environment" "env" {
   location                   = azurerm_resource_group.portfolio_rg.location
   resource_group_name        = azurerm_resource_group.portfolio_rg.name
   log_analytics_workspace_id = azurerm_log_analytics_workspace.log.id
-}
-
-variable "image_tag" {
-  type        = string
-  description = "Tag for the Docker image"
 }
 
 resource "azurerm_container_app" "portfolio_app" {
@@ -62,7 +71,8 @@ resource "azurerm_container_app" "portfolio_app" {
     }
   }
 }
+
 output "container_app_url" {
-  value = azurerm_container_app.portfolio_app.latest_revision_fqdn
+  value       = azurerm_container_app.portfolio_app.latest_revision_fqdn
   description = "The public URL of the deployed Azure Container App"
 }
