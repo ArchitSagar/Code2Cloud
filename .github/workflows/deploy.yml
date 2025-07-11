@@ -3,6 +3,13 @@ name: CI/CD with Lint, Test, Docker, Terraform, and Domain Bind
 on:
   push:
     branches: [ main ]
+    paths:
+      - 'src/**'           # React app code
+      - 'infra/**'         # Terraform infra
+      - '.github/workflows/**'  # Workflow file itself
+      - 'Dockerfile'
+      - 'package.json'
+      - 'package-lock.json'
 
 jobs:
   deploy:
