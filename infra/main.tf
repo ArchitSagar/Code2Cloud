@@ -51,7 +51,7 @@ resource "azurerm_container_app" "portfolio_app" {
   template {
     container {
       name   = "react-app"
-      image  = "nginx" # Replace with your Docker image later
+      image  = "sagararchit/code2cloud-portfolio:latest"
       cpu    = 0.25
       memory = "0.5Gi"
     }
