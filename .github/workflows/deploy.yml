@@ -1,0 +1,78 @@
+name: CI/CD with Lint, Test, Docker, Terraform, and Domain Bind
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+
+    - name: Install Dependencies
+      run: npm install
+      working-directory: ./src
+
+    - name: Run Lint
+      run: npm run lint
+      working-directory: ./src
+
+    - name: Run Tests
+      run: npm test -- --watchAll=false
+      working-directory: ./src
+
+    - name: Generate Image Tag
+      id: tag
+      run: echo "TAG=$(date +%s)" >> $GITHUB_ENV
+
+    - name: Docker Login
+      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+
+    - name: Build Docker Image
+      run: docker build -t ${{ secrets.DOCKER_USERNAME }}/code2cloud-portfolio:${{ env.TAG }} .
+
+    - name: Push Docker Image
+      run: docker push ${{ secrets.DOCKER_USERNAME }}/code2cloud-portfolio:${{ env.TAG }}
+
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: 1.8.5
+
+    - name: Terraform Init
+      run: terraform init
+      working-directory: ./infra
+
+    - name: Terraform Apply
+      run: terraform apply -auto-approve -var="image_tag=${{ env.TAG }}"
+      working-directory: ./infra
+
+    - name: Bind Custom Domain (only if not already bound)
+      run: |
+        if ! az containerapp hostname list \
+          --name code2cloud-containerapp \
+          --resource-group code2cloud-container-rg \
+          --query "[?name=='www.architsagar.me']" | grep -q 'architsagar.me'; then
+          echo "Binding custom domain..."
+          az containerapp hostname bind \
+            --name code2cloud-containerapp \
+            --resource-group code2cloud-container-rg \
+            --hostname www.architsagar.me \
+            --environment code2cloud-env \
+            --validation-method CNAME
+        else
+          echo "Domain already bound. Skipping."
+        fi

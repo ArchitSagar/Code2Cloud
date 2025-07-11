@@ -32,6 +32,11 @@ resource "azurerm_container_app_environment" "env" {
   log_analytics_workspace_id = azurerm_log_analytics_workspace.log.id
 }
 
+variable "image_tag" {
+  type        = string
+  description = "Tag for the Docker image"
+}
+
 resource "azurerm_container_app" "portfolio_app" {
   name                         = "code2cloud-containerapp"
   container_app_environment_id = azurerm_container_app_environment.env.id
@@ -51,7 +56,7 @@ resource "azurerm_container_app" "portfolio_app" {
   template {
     container {
       name   = "react-app"
-      image  = "sagararchit/code2cloud-portfolio:latest"
+      image  = "sagararchit/code2cloud-portfolio:${var.image_tag}"
       cpu    = 0.25
       memory = "0.5Gi"
     }
