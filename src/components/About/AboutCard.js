@@ -12,7 +12,7 @@ function AboutCard() {
             Hi Everyone, I am <span className="purple">Archit Sagar</span>.
             <br />
             I am an <span className="purple">Automation Developer</span> passionate about{" "}
-            <span className="purple">DevOps</span>,{" "}
+            <span className="purple">DevOps</span> and {" "}
             <span className="purple">Web Development</span>.
             <br />
             <br />
