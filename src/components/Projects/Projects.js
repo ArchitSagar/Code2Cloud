@@ -24,7 +24,7 @@ function Projects() {
               imgPath={Chess}
               isBlog={false}
               title="Elite Chess"
-              description="A multiplayer and engine-based chess web app where users can play in real-time against other players or challenge a built-in chess engine. Built using React.js, Firebase, and an open-source chess engine, the app supports different difficulty levels."
+              description="A multiplayer and engine-based chess web app where users can play in real-time against other players or a built-in chess engine. Built using React.js, Firebase, and an open-source chess engine, supports different levels."
               ghLink="https://github.com/ArchitSagar/chess"
               demoLink="http://elitechess.vercel.app/"
             />
@@ -35,8 +35,9 @@ function Projects() {
               imgPath={Code2Cloud}
               isBlog={false}
               title="Code2Cloud: Portfolio Edition"
-              description="Code2Cloud Portfolio automates the deployment of my personal portfolio using Docker, Terraform, and GitHub Actions, hosted on Azure with CI/CD built-in."
+              description="Code2Cloud Portfolio automates the deployment of my personal portfolio using Docker, Terraform, and GitHub Actions, hosted on Azure with CI/CD, domain binding, and infrastructure as code built-in."
               ghLink="https://github.com/ArchitSagar/Code2Cloud"
+              demoLink="http://www.architsagar.me/"
             />
           </Col>
 
