@@ -1,6 +1,7 @@
 import React from "react";
 import Card from "react-bootstrap/Card";
 import { ImPointRight } from "react-icons/im";
+import "./Techstack.css";
 
 function AboutCard() {
   return (
@@ -27,19 +28,12 @@ function AboutCard() {
           </ul>
 
           <p
-            style={{
-              textAlign: "center",
-              fontStyle: "italic",
-              marginTop: "30px",
-              cursor: "help",
-            }}
+            className="gita-verse"
             title="You have the right to perform your actions, but never to the fruits of those actions. Never let the fruits of action be your motive, and never stop doing your duty."
           >
             कर्मण्येवाधिकारस्ते मा फलेषु कदाचन । <br />
             मा कर्मफलहेतुर्भूर्मा ते सङ्गोऽस्त्वकर्मणि ॥ <br />
-            <span className="purple" style={{ fontSize: "0.9rem" }}>
-              — Bhagavad Gita 2.47
-            </span>
+            <span className="purple verse-ref">— Bhagavad Gita 2.47</span>
           </p>
         </blockquote>
       </Card.Body>
