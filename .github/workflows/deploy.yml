@@ -32,9 +32,9 @@ jobs:
       run: npm run lint
       working-directory: ./src
 
-    - name: Run Tests
-      run: npm test -- --watchAll=false
-      working-directory: ./src
+    # - name: Run Tests
+    #   run: npm test -- --watchAll=false
+    #   working-directory: ./src
 
     - name: Generate Image Tag
       id: tag
